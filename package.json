@@ -1,0 +1,23 @@
+{
+  "name": "oidc-provider",
+  "version": "1.0.0",
+  "description": "Custom oidc for cognito authorization",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cognito",
+    "aws",
+    "oidc"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jose": "^1.27.2"
+  }
+}
