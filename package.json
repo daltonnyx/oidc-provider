@@ -1,5 +1,5 @@
 {
-  "name": "oidc-provider",
+  "name": "fsi-oidc-provider",
   "version": "1.0.0",
   "description": "Custom oidc for cognito authorization",
   "main": "index.js",
@@ -14,10 +14,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "assert": "^2.0.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
+    "ejs": "^3.1.3",
     "express": "^4.17.1",
+    "lodash": "^4.17.15",
+    "oidc-provider": "^6.27.4",
+    "querystring": "^0.2.0",
+    "util": "^0.12.3"
+  },
+  "devDependencies": {
     "jose": "^1.27.2"
   }
 }
