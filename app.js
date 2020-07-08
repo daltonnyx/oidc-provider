@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const https = require('https');
+const http = require('http');
 const app =express();
 const port = 3200;
 const fs = require('fs');
@@ -19,7 +20,7 @@ const jwks = require('./config/jwks.json');
 
 const interactions = OidcProvider.interactionPolicy.base();
 
-const oidc = new OidcProvider(`https://localhost:${port}`, {
+const oidc = new OidcProvider(`https://login.vikvn.site`, {
     findAccount: Account.findAccount,
     //adapter: CognitoAdapter,
     clients: [
@@ -27,7 +28,7 @@ const oidc = new OidcProvider(`https://localhost:${port}`, {
             client_id: '339b515b7e05',
             client_secret: 'sRdrHdpuogkN24P19DKX7T44ZZFDUIuYYQH7N61qQnqYBXR2Oo2WDAq51Yg7mnjK',
             grant_types: ['authorization_code', 'refresh_token'],
-            redirect_uris: ['https://fusang-sso-poc.auth.ap-southeast-1.amazoncognito.com/oauth2/idpresponse'],
+            redirect_uris: ['https://fsi.auth.ap-southeast-1.amazoncognito.com/oauth2/idpresponse', 'http://localhost:3000'],
         }
     ],
     cookies: {
@@ -71,14 +72,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 routes(app, oidc);
 
-app.get('/', (req, res) => {
-    res.send("Oidc");
-});
-
-app.use('/openid',oidc.callback);
+app.use(oidc.callback);
 
 
 
-const httpsServer = https.createServer(credentials, app);
+const httpServer = http.createServer(app);
 
-httpsServer.listen(port);
+httpServer.listen(port);
