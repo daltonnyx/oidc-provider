@@ -44,6 +44,10 @@ module.exports = (app, provider) => {
     next();
   }
 
+  app.get('/fss-authorize', async (req, res) => {
+    res.redirect(301, 'https://fsi.auth.ap-southeast-1.amazoncognito.com/authorize?identity_provider=fsi-login&client_id=426ldv3o6o56v33i1e6573k1u1&response_type=code&scope=email+openid&redirect_uri=http://localhost:3000/');
+  });
+
   app.get('/interaction/:uid', setNoCache, async (req, res, next) => {
     try {
       const {
@@ -123,11 +127,21 @@ module.exports = (app, provider) => {
           account: account.accountId,
         },
       };
-
-      await provider.interactionFinished(req, res, result, { mergeWithLastSubmission: false });
+      console.log(result);
+      res.redirect(`/interaction/${req.params.uid}/mfa`);
+      //await provider.interactionFinished(req, res, result, { mergeWithLastSubmission: false });
     } catch (err) {
       next(err);
     }
+  });
+  app.get('/interaction/:uid/mfa', setNoCache, body, async (req, res, next) => {
+    const result = {
+        select_account: {},
+        login: {
+            account: "quy.truong"
+        }
+    };
+    await provider.interactionFinished(req, res, result, { mergeWithLastSubmission: false });
   });
 
   app.post('/interaction/:uid/continue', setNoCache, body, async (req, res, next) => {
